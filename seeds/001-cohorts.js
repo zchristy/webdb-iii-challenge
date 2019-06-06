@@ -6,8 +6,8 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('cohorts').insert([
         {name: 'Web19'},
-        {name: 'UX19'},
-        {name: 'iOS19'}
+        {name: 'Web17'},
+        {name: 'Web16'}
       ]);
     });
 };

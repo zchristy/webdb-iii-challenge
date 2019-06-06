@@ -8,7 +8,6 @@ module.exports = {
       filename: './data/lambda.db3',
     },
     useNullAsDefault: true, // needed for sqlite
-    debug: true
   },
 
   staging: {

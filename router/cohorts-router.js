@@ -45,11 +45,23 @@ router.get('/:id/students', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-
+  db.update(req.params.id, req.body)
+  .then(cohort => {
+    res.status(200).json(cohort)
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
 });
 
 router.delete('/:id', (req, res) => {
-
+  db.remove(req.params.id)
+  .then(cohort => {
+    res.status(200).json({message: "Cohort succesfully Deleted"})
+  })
+  .catch(err => {
+    res.status(500).json(err)
+  })
 });
 
 module.exports = router

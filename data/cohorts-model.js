@@ -25,7 +25,7 @@ function findById(id) {
 function findStudentsById(id) {
   return db('students')
   .join('cohorts', 'students.cohorts_id', 'cohorts.id')
-  .select('cohorts.id', 'cohorts.name', 'students.id', 'students.name')
+  .select('students.id', 'students.name', 'cohorts.id as cohort_id', 'cohorts.name as cohort')
   .where({ cohorts_id: id })
 }
 
