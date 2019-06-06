@@ -16,7 +16,6 @@ function find() {
 }
 
 function findById(id) {
-  console.log(id)
     return db('students')
     .join('cohorts', 'students.cohorts_id', 'cohorts.id')
     .select('students.id', 'students.name', 'cohorts.name as cohort')

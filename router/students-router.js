@@ -2,10 +2,12 @@ const express = require('express');
 
 const db = require('../data/students-model.js')
 
+const mw = require('../middleware/middleware.js')
+
 const router = express.Router();
 
-router.post('/', (req, res) => {
-  db.add(req.body)
+router.post('/', mw.validateStudent, (req, res) => {
+  db.add(req.student)
   .then(id => {
     res.status(200).json(id)
   })
@@ -24,8 +26,8 @@ router.get('/', (req, res) => {
   })
 });
 
-router.get('/:id', (req, res) => {
-  db.findById(req.params.id)
+router.get('/:id', mw.validateStudentId, (req, res) => {
+  db.findById(req.studentId)
   .then(student => {
     res.status(200).json(student)
   })
@@ -34,8 +36,8 @@ router.get('/:id', (req, res) => {
   })
 });
 
-router.put('/:id', (req, res) => {
-  db.update(req.params.id, req.body)
+router.put('/:id', mw.validateStudentId, mw.validateStudent, (req, res) => {
+  db.update(req.studentId, req.student)
   .then(student => {
     res.status(200).json(student)
   })
@@ -44,8 +46,8 @@ router.put('/:id', (req, res) => {
   })
 });
 
-router.delete('/:id', (req, res) => {
-  db.remove(req.params.id)
+router.delete('/:id', mw.validateStudentId, (req, res) => {
+  db.remove(req.studentId)
   .then(student => {
     res.status(200).json({message: "Student succesfully Deleted"})
   })

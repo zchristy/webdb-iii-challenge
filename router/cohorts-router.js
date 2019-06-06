@@ -2,10 +2,12 @@ const express = require('express');
 
 const db = require('../data/cohorts-model.js')
 
+const mw = require('../middleware/middleware.js')
+
 const router = express.Router();
 
-router.post('/', (req, res) => {
-  db.add(req.body)
+router.post('/', mw.validateCohort, (req, res) => {
+  db.add(req.cohort)
   .then(id => {
     res.status(200).json(id)
   })
@@ -24,8 +26,8 @@ router.get('/', (req, res) => {
   })
 });
 
-router.get('/:id', (req, res) => {
-  db.findById(req.params.id)
+router.get('/:id', mw.validateCohortId, (req, res) => {
+  db.findById(req.cohortId)
   .then(cohort => {
     res.status(200).json(cohort)
   })
@@ -34,8 +36,8 @@ router.get('/:id', (req, res) => {
   })
 });
 
-router.get('/:id/students', (req, res) => {
-  db.findStudentsById(req.params.id)
+router.get('/:id/students', mw.validateCohortId, (req, res) => {
+  db.findStudentsById(req.cohortId)
   .then(students => {
     res.status(200).json(students)
   })
@@ -44,8 +46,8 @@ router.get('/:id/students', (req, res) => {
   })
 });
 
-router.put('/:id', (req, res) => {
-  db.update(req.params.id, req.body)
+router.put('/:id', mw.validateCohortId, mw.validateCohort, (req, res) => {
+  db.update(req.cohortId, req.cohort)
   .then(cohort => {
     res.status(200).json(cohort)
   })
@@ -54,8 +56,8 @@ router.put('/:id', (req, res) => {
   })
 });
 
-router.delete('/:id', (req, res) => {
-  db.remove(req.params.id)
+router.delete('/:id', mw.validateCohortId, (req, res) => {
+  db.remove(req.cohortId)
   .then(cohort => {
     res.status(200).json({message: "Cohort succesfully Deleted"})
   })
